@@ -19,252 +19,252 @@
 
   <div id="root" class="max-w-4xl mx-auto mt-8 p-4 bg-white shadow-lg rounded-lg"></div>
 
+  <!-- Your React code wrapped in a Babel script -->
   <script type="text/babel">
-    const { useState } = React;
 
-    const steps = [
-      {
-        title: "Step 1: Microalgae",
-        image: "https://i.postimg.cc/yxtsSg52/image-1.jpg",
-        description: "Microalgae are microscopic organisms capable of photosynthesis, which can be used as a source for biofuel."
-      },
-      {
-        title: "Step 2: Cultivation",
-        image: "https://i.postimg.cc/y6bVGtdn/image-2.jpg",
-        description: "Algae are grown in ponds or bioreactors where they multiply rapidly using sunlight, CO2, and nutrients."
-      },
-      {
-        title: "Step 3: Harvesting",
-        image: "https://i.postimg.cc/0Qt8PHCk/image-5.png",
-        description: "Algae are separated from water using methods like filtration or centrifugation to gather the biomass."
-      },
-      {
-        title: "Step 4: Thermochemical Conversion",
-        image: "https://i.postimg.cc/8cjT5Byh/image-3.png",
-        description: "The algae biomass undergoes thermochemical conversion to extract bio-oil, a raw form of biofuel."
-      },
-      {
-        title: "Step 5: Renewable Biofuels",
-        image: "https://i.postimg.cc/d1QsMKrN/image-4.png",
-        description: "The extracted bio-oil is processed into renewable biofuels such as biodiesel and bioethanol."
-      }
-    ];
+// Algae Biofuel Interactive Learning Game with Score Tracking (Answer Locking and Summary Answer Display)
 
-    const MatchingGame = ({ updateScore }) => {
-      const [answers, setAnswers] = useState({});
-      const [submitted, setSubmitted] = useState(false);
+const { useState } = React;
 
-      const terms = ["Microalgae", "Bioreactor", "Centrifugation", "Biofuel"];
-      const definitions = {
-        Microalgae: [
-          "Tiny organisms that use sunlight to grow",
-          "Machine to spin algae for separation"
-        ],
-        Bioreactor: [
-          "A controlled container where algae grow",
-          "Fuel made from living materials"
-        ],
-        Centrifugation: [
-          "Machine to spin algae for separation",
-          "Container to collect water"
-        ],
-        Biofuel: [
-          "Fuel made from living materials",
-          "Sunlight-powered gas"
-        ]
-      };
+const steps = [
+  {
+    title: "Step 1: Microalgae",
+    image: "https://i.postimg.cc/yxtsSg52/image-1.jpg",
+    description: "Microalgae are microscopic organisms capable of photosynthesis, which can be used as a source for biofuel."
+  },
+  {
+    title: "Step 2: Cultivation",
+    image: "https://i.postimg.cc/y6bVGtdn/image-2.jpg",
+    description: "Algae are grown in ponds or bioreactors where they multiply rapidly using sunlight, CO2, and nutrients."
+  },
+  {
+    title: "Step 3: Harvesting",
+    image: "https://i.postimg.cc/0Qt8PHCk/image-5.png",
+    description: "Algae are separated from water using methods like filtration or centrifugation (a process using spinning force to separate materials) to gather the biomass."
+  },
+  {
+    title: "Step 4: Thermochemical Conversion",
+    image: "https://i.postimg.cc/8cjT5Byh/image-3.png",
+    description: "The algae biomass undergoes thermochemical conversion to extract bio-oil, a raw form of biofuel."
+  },
+  {
+    title: "Step 5: Renewable Biofuels",
+    image: "https://i.postimg.cc/d1QsMKrN/image-4.png",
+    description: "The extracted bio-oil is processed into renewable biofuels such as biodiesel and bioethanol."
+  }
+];
 
-      const handleChange = (term, value) => {
-        if (!submitted) {
-          setAnswers({ ...answers, [term]: value });
-        }
-      };
+const MatchingGame = ({ updateScore }) => {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
-      const handleSubmit = () => {
-        let score = 0;
-        terms.forEach(term => {
-          if (answers[term] === definitions[term][0]) score++;
-        });
-        updateScore(score);
-        setSubmitted(true);
-      };
+  const terms = ["Microalgae", "Bioreactor", "Centrifugation", "Biofuel"];
+  const definitions = {
+    Microalgae: [
+      "Tiny organisms that use sunlight to grow",
+      "Machine to spin algae for separation"
+    ],
+    Bioreactor: [
+      "A controlled container where algae grow",
+      "Fuel made from living materials"
+    ],
+    Centrifugation: [
+      "Machine to spin algae for separation",
+      "Container to collect water"
+    ],
+    Biofuel: [
+      "Fuel made from living materials",
+      "Sunlight-powered gas"
+    ]
+  };
 
-      return (
-        <div className="space-y-4">
-          {terms.map(term => (
-            <div key={term}>
-              <label className="block font-bold">{term}</label>
-              <select
-                className="border p-2 rounded"
-                onChange={e => handleChange(term, e.target.value)}
-                value={answers[term] || ""}
-                disabled={submitted}
-              >
-                <option value="" disabled>Select definition</option>
-                {definitions[term].map((def, idx) => (
-                  <option key={idx} value={def}>{def}</option>
-                ))}
-              </select>
-              {submitted && (
-                <p className={answers[term] === definitions[term][0] ? "text-green-500" : "text-red-500"}>
-                  {answers[term] === definitions[term][0] ? "Correct" : "Incorrect"}
-                </p>
-              )}
-            </div>
-          ))}
-          <button onClick={handleSubmit} disabled={submitted} className="bg-blue-500 text-white px-4 py-2 rounded">Check Answers</button>
-        </div>
-      );
-    };
+  const handleChange = (term, value) => {
+    if (!submitted) {
+      setAnswers({ ...answers, [term]: value });
+    }
+  };
 
-    const TrueFalseGame = ({ updateScore }) => {
-      const questions = [
-        { q: "Algae need sunlight, CO2, and nutrients to grow.", answer: true },
-        { q: "Centrifugation uses spinning to separate algae.", answer: true },
-        { q: "Biofuels from algae are non-renewable.", answer: false },
-        { q: "Bioreactors are used to destroy algae.", answer: false }
-      ];
+  const handleSubmit = () => {
+    let score = 0;
+    terms.forEach(term => {
+      if (answers[term] === definitions[term][0]) score++;
+    });
+    updateScore(score);
+    setSubmitted(true);
+  };
 
-      const [results, setResults] = useState(Array(questions.length).fill(null));
-
-      const handleAnswer = (idx, choice) => {
-        if (results[idx] !== null) return;
-        const newResults = [...results];
-        const correct = choice === questions[idx].answer;
-        newResults[idx] = correct ? "Correct" : "Incorrect";
-        setResults(newResults);
-        if (correct) updateScore(1);
-      };
-
-      return (
-        <div className="space-y-4">
-          {questions.map((q, idx) => (
-            <div key={idx} className="border p-2 rounded">
-              <p>{q.q}</p>
-              <div className="space-x-2">
-                <button onClick={() => handleAnswer(idx, true)} disabled={results[idx] !== null} className="bg-green-500 text-white px-4 py-1 rounded">True</button>
-                <button onClick={() => handleAnswer(idx, false)} disabled={results[idx] !== null} className="bg-red-500 text-white px-4 py-1 rounded">False</button>
-              </div>
-              {results[idx] && (
-                <p className={results[idx] === "Correct" ? "text-green-500" : "text-red-500"}>
-                  {results[idx]}
-                </p>
-              )}
-            </div>
-          ))}
-        </div>
-      );
-    };
-
-    const Question = ({ updateScore, onSubmit, setTextAnswer }) => {
-      const [answer, setAnswer] = useState("");
-      const [submitted, setSubmitted] = useState(false);
-      const correctAnswer = "It is renewable and eco-friendly";
-
-      const handleSubmit = () => {
-        if (!submitted) {
-          if (answer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
-            updateScore(1);
-          }
-          setTextAnswer(answer);
-          setSubmitted(true);
-          onSubmit();
-        }
-      };
-
-      return (
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">Question</h2>
-          <p>What is the main benefit of using algae for biofuel production?</p>
-          <input
-            type="text"
-            className="border p-2 rounded w-full"
-            placeholder="Type your answer here"
-            value={answer}
-            onChange={e => setAnswer(e.target.value)}
+  return (
+    <div className="space-y-4">
+      {terms.map(term => (
+        <div key={term}>
+          <label className="block font-bold">{term}</label>
+          <select
+            className="border p-2 rounded"
+            onChange={e => handleChange(term, e.target.value)}
+            value={answers[term] || ""}
             disabled={submitted}
-          />
-          <button onClick={handleSubmit} disabled={submitted} className="bg-blue-500 text-white px-4 py-2 rounded">Submit Answer</button>
-          {submitted && <p>Answer submitted!</p>}
-        </div>
-      );
-    };
-
-    const Summary = ({ score, textAnswer }) => (
-      <div className="space-y-4">
-        <h2 className="text-xl font-bold">What You Learned</h2>
-        <p>
-          Algae can be used to produce renewable biofuels. Through cultivation,
-          harvesting (like centrifugation), and thermochemical conversion, we can
-          create eco-friendly alternatives to fossil fuels.
-        </p>
-        <p><strong>Your Answer:</strong> {textAnswer}</p>
-        <p className="text-lg font-bold">Your Score: {score}</p>
-      </div>
-    );
-
-    const AlgaeBiofuelGame = () => {
-      const [page, setPage] = useState(0);
-      const [score, setScore] = useState(0);
-      const [textAnswer, setTextAnswer] = useState("");
-
-      const updateScore = (points) => setScore(prev => prev + points);
-
-      return (
-        <div className="p-4 space-y-6">
-          {page === 0 && (
-            <div className="space-y-4 text-center">
-              <h1 className="text-3xl font-bold">🌿 Algae Biofuel Game</h1>
-              <p>Learn how algae can be turned into eco-friendly fuel through fun quizzes and activities!</p>
-              <button onClick={() => setPage(1)} className="bg-green-600 text-white px-4 py-2 rounded">🚀 Start Learning</button>
-            </div>
-          )}
-
-          {page === 1 && (
-            <div className="space-y-4">
-              {steps.map((step, idx) => (
-                <div key={idx} className="flex items-center gap-4 border p-4 rounded bg-gray-50">
-                  <img src={step.image} alt={step.title} className="w-20 h-20 object-contain" />
-                  <div>
-                    <h3 className="text-lg font-semibold">{step.title}</h3>
-                    <p>{step.description}</p>
-                  </div>
-                </div>
-              ))}
-              <button onClick={() => setPage(2)} className="bg-blue-500 text-white px-4 py-2 rounded">🧠 Start Matching Game</button>
-            </div>
-          )}
-
-          {page === 2 && (
-            <div className="space-y-4">
-              <MatchingGame updateScore={updateScore} />
-              <button onClick={() => setPage(3)} className="bg-purple-500 text-white px-4 py-2 rounded">✅ True or False Challenge</button>
-            </div>
-          )}
-
-          {page === 3 && (
-            <div className="space-y-4">
-              <TrueFalseGame updateScore={updateScore} />
-              <button onClick={() => setPage(4)} className="bg-orange-500 text-white px-4 py-2 rounded">✍️ Final Question</button>
-            </div>
-          )}
-
-          {page === 4 && (
-            <Question
-              updateScore={updateScore}
-              onSubmit={() => setPage(5)}
-              setTextAnswer={setTextAnswer}
-            />
-          )}
-
-          {page === 5 && (
-            <Summary score={score} textAnswer={textAnswer} />
+          >
+            <option value="" disabled>Select definition</option>
+            {definitions[term].map((def, idx) => (
+              <option key={idx} value={def}>{def}</option>
+            ))}
+          </select>
+          {submitted && (
+            <p className={answers[term] === definitions[term][0] ? "text-green-500" : "text-red-500"}>
+              {answers[term] === definitions[term][0] ? "Correct" : "Incorrect"}
+            </p>
           )}
         </div>
-      );
-    };
+      ))}
+      <button onClick={handleSubmit} disabled={submitted} className="bg-blue-500 text-white px-4 py-2 rounded">Check Answers</button>
+    </div>
+  );
+};
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<AlgaeBiofuelGame />);
+const TrueFalseGame = ({ updateScore }) => {
+  const questions = [
+    { q: "Algae need sunlight, CO2, and nutrients to grow.", answer: true },
+    { q: "Centrifugation uses spinning to separate algae.", answer: true },
+    { q: "Biofuels from algae are non-renewable.", answer: false },
+    { q: "Bioreactors are used to destroy algae.", answer: false }
+  ];
+
+  const [results, setResults] = useState(Array(questions.length).fill(null));
+
+  const handleAnswer = (idx, choice) => {
+    if (results[idx] !== null) return;
+    const newResults = [...results];
+    const correct = choice === questions[idx].answer;
+    newResults[idx] = correct ? "Correct" : "Incorrect";
+    setResults(newResults);
+    if (correct) updateScore(1);
+  };
+
+  return (
+    <div className="space-y-4">
+      {questions.map((q, idx) => (
+        <div key={idx} className="border p-2 rounded">
+          <p>{q.q}</p>
+          <div className="space-x-2">
+            <button onClick={() => handleAnswer(idx, true)} disabled={results[idx] !== null} className="bg-green-500 text-white px-4 py-1 rounded">True</button>
+            <button onClick={() => handleAnswer(idx, false)} disabled={results[idx] !== null} className="bg-red-500 text-white px-4 py-1 rounded">False</button>
+          </div>
+          {results[idx] && (
+            <p className={results[idx] === "Correct" ? "text-green-500" : "text-red-500"}>
+              {results[idx]}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Question = ({ updateScore, onSubmit, setTextAnswer }) => {
+  const [answer, setAnswer] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const correctAnswer = "It is renewable and eco-friendly";
+
+  const handleSubmit = () => {
+    if (!submitted) {
+      if (answer.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+        updateScore(1);
+      }
+      setTextAnswer(answer);
+      setSubmitted(true);
+      onSubmit();
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-xl font-bold">Question</h2>
+      <p>What is the main benefit of using algae for biofuel production?</p>
+      <input
+        type="text"
+        className="border p-2 rounded w-full"
+        placeholder="Type your answer here"
+        value={answer}
+        onChange={e => setAnswer(e.target.value)}
+        disabled={submitted}
+      />
+      <button onClick={handleSubmit} disabled={submitted} className="bg-blue-500 text-white px-4 py-2 rounded">Submit Answer</button>
+      {submitted && <p>Answer submitted!</p>}
+    </div>
+  );
+};
+
+const Summary = ({ score, textAnswer }) => (
+  <div className="space-y-4">
+    <h2 className="text-xl font-bold">What You Learned</h2>
+    <p>
+      Algae can be used to produce renewable biofuels. Through cultivation,
+      harvesting (like centrifugation), and thermochemical conversion, we can
+      create eco-friendly alternatives to fossil fuels.
+    </p>
+    <p><strong>Your Answer:</strong> {textAnswer}</p>
+    <p className="text-lg font-bold">Your Score: {score}</p>
+  </div>
+);
+
+const AlgaeBiofuelGame = () => {
+  const [page, setPage] = useState(0);
+  const [score, setScore] = useState(0);
+  const [textAnswer, setTextAnswer] = useState("");
+
+  const updateScore = (points) => setScore(prev => prev + points);
+
+  return (
+    <div className="p-4 space-y-6">
+      {page === 0 && (
+        <div className="space-y-4 text-center">
+          <h1 className="text-3xl font-bold">🌿 Algae Biofuel Game</h1>
+          <p>Learn how algae can be turned into eco-friendly fuel through fun quizzes and activities!</p>
+          <button onClick={() => setPage(1)} className="bg-green-600 text-white px-4 py-2 rounded">🚀 Start Learning</button>
+        </div>
+      )}
+
+      {page === 1 && (
+        <div className="space-y-4">
+          {steps.map((step, idx) => (
+            <div key={idx} className="flex items-center gap-4 border p-4 rounded bg-gray-50">
+              <img src={step.image} alt={step.title} className="w-20 h-20 object-contain" />
+              <div>
+                <h3 className="text-lg font-semibold">{step.title}</h3>
+                <p>{step.description}</p>
+              </div>
+            </div>
+          ))}
+          <button onClick={() => setPage(2)} className="bg-blue-500 text-white px-4 py-2 rounded">🧠 Start Matching Game</button>
+        </div>
+      )}
+
+      {page === 2 && (
+        <div className="space-y-4">
+          <MatchingGame updateScore={updateScore} />
+          <button onClick={() => setPage(3)} className="bg-purple-500 text-white px-4 py-2 rounded">✅ True or False Challenge</button>
+        </div>
+      )}
+
+      {page === 3 && (
+        <div className="space-y-4">
+          <TrueFalseGame updateScore={updateScore} />
+          <button onClick={() => setPage(4)} className="bg-yellow-500 text-white px-4 py-2 rounded">📝 Answer Question</button>
+        </div>
+      )}
+
+      {page === 4 && (
+        <Question updateScore={updateScore} onSubmit={() => setPage(5)} setTextAnswer={setTextAnswer} />
+      )}
+
+      {page === 5 && <Summary score={score} textAnswer={textAnswer} />}
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<AlgaeBiofuelGame />);
+
   </script>
 </body>
 </html>
